@@ -89,7 +89,6 @@ class BERTScorer:
         f_score = []
         
         for j in range(0, m, self.batch_size):  
-            print(f'Batch {j}=>{j+self.batch_size}')
             candidate_batch= candidates[j:j+self.batch_size]
             reference_batch= references[j:j+self.batch_size]
 
@@ -117,8 +116,7 @@ class BERTScorer:
             
             for i in range(len(candidate_batch)): 
                 # Removing the embedding of pad , <s> and <\s> tokens from the candidates and references 
-                print(candidate_mask.size())
-                print(candidate_tokens['input_ids'].size())
+
                 candidate_mask[i][candidate_tokens['input_ids'][i] == self.tokenizer.eos_token_id] = 0
                 candidate_mask[i][candidate_tokens['input_ids'][i] == self.tokenizer.bos_token_id] = 0
                 candidate_mask[i][candidate_tokens['input_ids'][i] == self.tokenizer.sep_token_id] = 0
